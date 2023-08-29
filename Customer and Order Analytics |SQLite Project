@@ -1,0 +1,68 @@
+# Here is a list of SQL code used to analyze a sales database on average sales, total sales, and quantify data on customer accounts and orders placed.
+
+
+
+
+# 1. How many orders were placed in January? Remember to filter out the blank and incorrect order IDs like we did in the "dealing with messy data" section of the previous lesson!
+SELECT COUNT(*) FROM JanSales
+WHERE orderID <> 'Order ID'
+AND length(orderID) = 6
+AND orderID <> ''
+AND orderID IS NOT NULL;
+
+
+# 2. How many of those orders were for an iPhone?
+SELECT COUNT(*) FROM BIT_DB.JanSales
+WHERE product = 'iPhone'
+AND length(orderID) = 6
+AND orderID <> 'Order ID';
+
+
+# 3. Select the customer account numbers for all the orders that were placed in February.
+SELECT customers.acctnum FROM customers
+INNER JOIN FebSales
+ON FebSales.orderID = customers.order_id
+WHERE FebSales.orderID <> 'Order ID'
+AND FebSales.orderID IS NOT NULL
+AND FebSales.orderID <> ''
+AND length(FebSales.orderID) = 6
+AND customers.order_id <> 'Order ID'
+AND customers.order_id <> ''
+AND customers.order_id IS NOT NULL
+AND length(customers.order_id) = 6;
+
+
+# 4. Which product was the cheapest one sold in January, and what was the price?
+SELECT min(price), Product FROM BIT_DB.JanSales
+WHERE orderID IS NOT NULL
+AND orderID <> ''
+AND length(orderID) = 6;
+
+
+# 5. What is the total revenue for each product sold in January? (Revenue can be calculated using the number of products sold and the price of the products).
+SELECT SUM(Quantity) * price AS revenue, Product FROM JanSales
+WHERE Product <> ''
+AND Product <> 'Product'
+GROUP BY Product;
+
+
+# 6. Which products were sold in February at 548 Lincoln St, Seattle, WA 98101, how many of each were sold, and what was the total revenue?
+SELECT FebSales.Product, FebSales.location, FebSales.Quantity, FebSales.price, SUM(FebSales.Quantity) * FebSales.price AS revenue
+FROM FebSales
+WHERE product <> ''
+AND product <> 'Product'
+AND location LIKE '%548 Lincoln%'
+GROUP BY product;
+
+
+# 7. How many customers ordered more than 2 products at a time in February, and what was the average amount spent for those customers?
+SELECT COUNT(DISTINCT customers.acctnum), AVG(FebSales.Quantity * FebSales.price) FROM FebSales
+INNER JOIN customers
+ON customers.order_id = FebSales.orderID
+WHERE FebSales.quantity >= 2
+AND FebSales.quantity <> ''
+AND FebSales.quantity <> 'Quantity Ordered'
+AND length(FebSales.orderID) = 6;
+
+
+
