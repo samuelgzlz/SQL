@@ -65,7 +65,7 @@ AND FebSales.quantity <> 'Quantity Ordered'
 AND length(FebSales.orderID) = 6;
 
 # 8. List all the products sold in Los Angeles in February, and include how many of each were sold.
-SELECT Product, Quantity, Location FROM FebSales
+SELECT Product, SUM(Quantity), Location FROM FebSales
 WHERE location LIKE '%Los Angeles%'
 GROUP BY Product;
 
