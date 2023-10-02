@@ -1,0 +1,48 @@
+##FORTUNE 500 analytics
+
+##Small project for the Break Into Tech course.
+##This includes data analysis for various companies and the SQL code had to include the following at least once:
+
+##Group the data in a new way using a CASE statement.
+##Use a HAVING clause to determine something interesting about the data per category.
+##Use logical operators like AND or OR to filter the data in an interesting way.
+##Use an aggregate function like AVG, SUM, COUNT, MAX, and/or MIN to return summary statistics about the data.
+
+/* Select all from the database to do visual analysis. */
+SELECT * FROM fortune_companies;
+
+/* Categorize industries according to their total revenue as High or Normal. */
+SELECT industry, revenue,
+CASE
+  WHEN revenue >= 400
+    THEN 'High Revenue'
+  ELSE 'Normal Revenue'
+END AS revenue_type
+FROM fortune_companies
+ORDER BY revenue DESC;
+
+/*Aggregate the total revenue by industry where each company made more than 300M. */
+SELECT COUNT(*) AS total_industries, industry, SUM(revenue) AS total_revenue
+FROM fortune_companies
+WHERE revenue >= 300
+GROUP BY industry
+ORDER BY total_revenue DESC;
+
+/*Aggregate the total revenue by industry where each industry made more than 2B. */
+SELECT COUNT(*) AS total_industries, industry, SUM(revenue) AS total_revenue
+FROM fortune_companies
+GROUP BY industry
+HAVING total_revenue >= 2000
+ORDER BY total_revenue DESC, industry;
+
+/*View revenue per industry. */
+SELECT industry, revenue
+FROM fortune_companies
+WHERE industry = 'Technology';
+
+/*Analysis to know which company has the most PTO days and it's relation to revenue. */
+SELECT company_name, industry, revenue, paid_time_off_days
+FROM fortune_companies
+WHERE revenue > 300 
+AND paid_time_off_days > 15
+ORDER BY paid_time_off_days DESC;
