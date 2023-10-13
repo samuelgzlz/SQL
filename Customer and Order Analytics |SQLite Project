@@ -64,6 +64,19 @@ AND FebSales.quantity <> ''
 AND FebSales.quantity <> 'Quantity Ordered'
 AND length(FebSales.orderID) = 6;
 
+//Different Method//
+
+SELECT AVG(FebSales.Quantity * FebSales.price)AS avgPerCustomer, COUNT(DISTINCT customers.acctnum) AS totalAcc
+FROM BIT_DB.FebSales
+LEFT JOIN BIT_DB.customers
+ON BIT_DB.FebSales.orderID = BIT_DB.customers.order_id
+WHERE Quantity > 2
+AND length(FebSales.orderID) = 6
+AND FebSales.orderID <> ''
+AND FebSales.orderID <> 'Order ID'
+AND FebSales.quantity <> 'Quantity Ordered'
+AND FebSales.orderID IS NOT NULL;
+
 # 8. List all the products sold in Los Angeles in February, and include how many of each were sold.
 SELECT Product, SUM(Quantity), Location FROM FebSales
 WHERE location LIKE '%Los Angeles%'
