@@ -12,14 +12,14 @@ WHERE Product <> ''
 AND Product LIKE '%Headphones%'
 GROUP BY Product;
 
-##3. What was the average amount spent per account in February? (Hints: For this question, we want the average amount spent / number of accounts, not the amount spent by each account. To multiply, you can use the * symbol, and to divide, you can use the / symbol.)
+##3. What was the average amount spent per account in February? 
 
 SELECT SUM(FebSales.Quantity*FebSales.Price) / COUNT(customers.acctnum) AS avgSpentPerAcc
 FROM BIT_DB.FebSales
 INNER JOIN customers
 ON customers.order_id = FebSales.orderID;
 
-##4. What was the average quantity of products purchased per account in February? (Hint: just like question 3, we want the overall average, not the average for each account individually).
+##4. What was the average quantity of products purchased per account in February? 
 
 SELECT SUM(FebSales.Quantity) / COUNT(customers.acctnum)
 FROM BIT_DB.FebSales
