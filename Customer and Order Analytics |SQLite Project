@@ -3,7 +3,7 @@
 
 
 
-# 1. How many orders were placed in January? Remember to filter out the blank and incorrect order IDs like we did in the "dealing with messy data" section of the previous lesson!
+# 1. How many orders were placed in January? 
 SELECT COUNT(*) FROM JanSales
 WHERE orderID <> 'Order ID'
 AND length(orderID) = 6
@@ -39,7 +39,7 @@ AND orderID <> ''
 AND length(orderID) = 6;
 
 
-# 5. What is the total revenue for each product sold in January? (Revenue can be calculated using the number of products sold and the price of the products).
+# 5. What is the total revenue for each product sold in January? 
 SELECT SUM(Quantity) * price AS revenue, Product FROM JanSales
 WHERE Product <> ''
 AND Product <> 'Product'
